@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Carousel } from 'react-bootstrap';
+import { FiShare2 } from 'react-icons/fi';
 import "./App.css";
 
 function App() {
+  const [sidebarExpanded, setSidebarExpanded] = useState(false); // Define state for sidebar
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleSidebarToggle = () => {
+    setSidebarExpanded(!sidebarExpanded); // Toggle sidebar expansion
+  };
 
   const handleDropdownToggle = () => {
     setShowDropdown(!showDropdown);
@@ -13,49 +19,52 @@ function App() {
   return (
     <div className="container-fluid">
       {/* Navbar */}
-      <header className="row bg-light p-3">
-        <div className="col-2">
+      <header className="row bg-light p-3 navbar">
+        <div className="col-2 d-flex flex-column align-items-center">
           <img
             src="https://via.placeholder.com/50"
             alt="Profile"
-            className="img-fluid rounded-circle"
+            className="img-fluid rounded-circle profile-img"
           />
-          <button className="btn btn-link d-block mt-2">View Profile</button>
+          <button className="btn btn-link view-profile-btn">View Profile</button>
         </div>
-        <div className="col-8">
-          <div className="input-group">
+        <div className="col-8 d-flex align-items-center">
+          <div className="input-group flex-grow-1">
             <input
               type="text"
-              className="form-control"
+              className="form-control search-input"
               placeholder="Search alumni/student name..."
             />
-            <button className="btn btn-outline-secondary">Search</button>
+            <button className="btn btn-outline-secondary search-button">Search</button>
           </div>
-        </div>
-        <div className="col-2 text-end">
-          <button className="btn btn-primary">Post</button>
+          <button className="btn btn-primary post-button ms-3">Post</button>
         </div>
       </header>
 
       {/* Dashboard Layout */}
       <div className="dashboard">
-        <aside className="sidebar">
+        <aside className={`sidebar ${sidebarExpanded ? 'expanded' : ''}`}>
           <div className="sidebar-header">
-            <h1 className="brand">Brand</h1>
+            <h1 className="brand">Dashboard</h1>
+            <button className="toggle-btn" onClick={handleSidebarToggle}>
+              {sidebarExpanded ? '☰' : '☰'}
+            </button>
           </div>
-          <nav className="menu">
-            <button className="menu-item">My Posts</button>
-            <button className="menu-item">Intern Scoop</button>
-            <div className="menu-item tech-library" onClick={handleDropdownToggle}>
-              Tech Library
-              {showDropdown && (
-                <div className="dropdown-menu show">
-                  <button className="dropdown-item">Domain</button>
-                </div>
-              )}
-            </div>
-            <button className="menu-item">Alumni Directory</button>
-          </nav>
+          {sidebarExpanded && (
+            <nav className="menu">
+              <button className="menu-item">My Posts</button>
+              <button className="menu-item">Intern Scoop</button>
+              <div className="menu-item tech-library" onClick={handleDropdownToggle}>
+                Tech Library
+                {showDropdown && (
+                  <div className="dropdown">
+                    <button className="dropdown-item">Domain</button>
+                  </div>
+                )}
+              </div>
+              <button className="menu-item">Alumni Directory</button>
+            </nav>
+          )}
         </aside>
 
         {/* Main Content Area */}
@@ -104,36 +113,31 @@ function App() {
           <section className="recent-posts">
             <h3>Recent and Trending Posts</h3>
             <div className="post-grid">
-              <div className="post bg-primary text-white">
-                <img src="https://via.placeholder.com/150" alt="Post" className="post-image" />
+              {/* Post 1 */}
+              <div className="post">
+                <img src="https://via.placeholder.com/150" alt="Post 1" className="post-image" />
                 <div className="post-actions">
                   <span>👍 20</span>
                   <span>💬 2</span>
-                  <span>🔗 Share</span>
+                  <span><FiShare2 /> Share</span>
                 </div>
               </div>
-              <div className="post bg-success text-white">
-                <img src="https://via.placeholder.com/150" alt="Post" className="post-image" />
+              {/* Post 2 */}
+              <div className="post">
+                <img src="https://via.placeholder.com/150" alt="Post 2" className="post-image" />
                 <div className="post-actions">
                   <span>👍 15</span>
                   <span>💬 5</span>
-                  <span>🔗 Share</span>
+                  <span><FiShare2 /> Share</span>
                 </div>
               </div>
-              <div className="post bg-info text-white">
-                <img src="https://via.placeholder.com/150" alt="Post" className="post-image" />
+              {/* Post 3 */}
+              <div className="post">
+                <img src="https://via.placeholder.com/150" alt="Post 3" className="post-image" />
                 <div className="post-actions">
                   <span>👍 30</span>
-                  <span>💬 10</span>
-                  <span>🔗 Share</span>
-                </div>
-              </div>
-              <div className="post bg-warning text-white">
-                <img src="https://via.placeholder.com/150" alt="Post" className="post-image" />
-                <div className="post-actions">
-                  <span>👍 25</span>
                   <span>💬 8</span>
-                  <span>🔗 Share</span>
+                  <span><FiShare2 /> Share</span>
                 </div>
               </div>
             </div>
