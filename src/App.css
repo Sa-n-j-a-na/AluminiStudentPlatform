@@ -74,7 +74,6 @@ header{
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  margin-top: 20px;
 }
 
 .sidebar.expanded {
@@ -160,13 +159,10 @@ header{
   flex-grow: 1;
   padding: 20px;
   overflow-y: auto;
-  margin-left: 70px; /* Ensure space for the collapsed sidebar */
   transition: margin-left 0.3s;
 }
 
-.sidebar.expanded ~ .content {
-  margin-left: 250px; /* Adjust space for expanded sidebar */
-}
+
 
 /* AI-driven Suggestion Section */
 .ai-suggestion {
