@@ -15,9 +15,6 @@
   border-bottom: 1px solid #dee2e6;
   margin-bottom: 20px; /* Margin-bottom added for spacing */
 }
-header{
-  margin-bottom: 20px; 
-}
 
 .navbar-left {
   display: flex;
@@ -160,13 +157,6 @@ header{
   padding: 20px;
   overflow-y: auto;
   transition: margin-left 0.3s;
-}
-
-
-
-/* AI-driven Suggestion Section */
-.ai-suggestion {
-  margin-top: 20px;
 }
 
 .ai-suggestion h3 {

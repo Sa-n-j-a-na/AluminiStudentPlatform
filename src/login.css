@@ -1,0 +1,81 @@
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+}
+  
+  .login-container {
+    background-color: grey;  /* Match the color of the submit button */
+    padding: 20px;  /* Reduced padding for smaller box */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    width: 300px;  /* Reduced width for smaller box */
+    text-align: center;
+    
+  }
+  
+  .login-form h2 {
+    margin-bottom: 20px;
+    color: #fff;
+    font-weight: bold;  /* Make text bold */
+  }
+  
+  .login-image {
+    width: 50px;  /* Adjust image size */
+    height: 50px;
+    margin-bottom: 15px;
+    border-radius: 50px;
+  }
+  
+  .radio-container {
+    margin-bottom: 15px;
+    text-align: left;
+    font-weight: bold;  /* Make text bold */
+    display: flex;
+    justify-content: space-around;  /* Distribute space evenly */
+  }
+  
+  .radio-container label {
+    font-size: 14px;
+    margin-right: 40px;  /* Increased space between radio buttons */
+  }
+  
+  .input-container {
+    margin-bottom: 15px;
+    text-align: left;
+    font-weight: bold;  /* Make text bold */
+  }
+  
+  .input-container label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .input-container input {
+    width: 100%;
+    padding: 6px;  /* Reduced padding for smaller input boxes */
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+  
+  .login-btn {
+    background-color: #ffff;
+    color: black;
+    padding: 8px;  /* Reduced padding for smaller button */
+    width: 50%;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;  /* Make text bold */
+    cursor: pointer;
+  }
+  
+  .login-btn:hover {
+    background-color: black;
+    color: #ffff;
+  }
