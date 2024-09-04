@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Carousel } from 'react-bootstrap';
-import { FiShare2 } from 'react-icons/fi';
+import { Carousel } from 'react-bootstrap'; // Import Carousel
+import { FiShare2 } from 'react-icons/fi';  // Import FiShare2
 import "./App.css";
-
 function App() {
   const [sidebarExpanded, setSidebarExpanded] = useState(false); // Define state for sidebar
   const [showDropdown, setShowDropdown] = useState(false);
@@ -47,9 +46,14 @@ function App() {
         <aside className={`sidebar ${sidebarExpanded ? 'expanded' : ''}`}>
           <div className="sidebar-header">
             <h1 className="brand">Dashboard</h1>
-            <button className="toggle-btn" onClick={handleSidebarToggle}>
-              {sidebarExpanded ? '☰' : '☰'}
-            </button>
+            <button className="toggle-btn" style={{ fontSize: '26px' }} onClick={handleSidebarToggle}>
+  {sidebarExpanded ? (
+    <span style={{ color: 'white !important', fontSize: '20px' }}>✖</span>
+  ) : (
+    '☰'
+  )}
+</button>
+
           </div>
           {sidebarExpanded && (
             <nav className="menu">
@@ -69,7 +73,7 @@ function App() {
         </aside>
 
         {/* Main Content Area */}
-        <main className="content">
+        <main className={`content ${sidebarExpanded ? 'sidebar-expanded' : ''}`}>
           {/* AI-driven Suggestion Posts - Carousel */}
           <section className="ai-suggestion mb-4">
             <h3>AI-driven Suggestion Post</h3>
