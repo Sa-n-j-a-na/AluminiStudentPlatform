@@ -1,43 +1,99 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 
 const app = express();
+const port = 5000;
 
-app.use(cors());
-app.use(bodyParser.json());
+// MongoDB connection URI
+const uri = "mongodb://localhost:27017";
+const client = new MongoClient(uri);
 
-const mongoURI = 'mongodb://localhost:27017'; 
-const dbName = 'studentApp';
+let mongoClient = null;
 
-let db;
-
-MongoClient.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
-  if (err) {
-    console.error('Failed to connect to MongoDB:', err);
-    return;
+// Function to connect to the database
+const connectToDatabase = async () => {
+  if (!mongoClient) {
+    mongoClient = await client.connect();
   }
-  console.log('Connected to MongoDB');
-  db = client.db(dbName);
-});
+  return mongoClient;
+};
 
-app.post('/login', async (req, res) => {
-  const { email, password, role } = req.body;
+// Middleware
+app.use(bodyParser.json());
+app.use(cors());
+
+// Endpoint to fetch alumni profiles by email
+app.get('/alumni', async (req, res) => {
+  const { email } = req.query;
 
   try {
-    const user = await db.collection('students').findOne({ email, password, role });
-    if (user) {
-      res.status(200).json({ message: 'Login successful', user });
+    const client = await connectToDatabase();
+    const database = client.db('studentApp');
+    const profile = await database.collection('alumniProfile').findOne({ email });
+
+    if (profile) {
+      res.status(200).json(profile);
     } else {
-      res.status(400).json({ message: 'Invalid credentials' });
+      res.status(404).json({ message: 'Profile not found' });
     }
   } catch (error) {
+    console.error('Error fetching profile:', error);
     res.status(500).json({ message: 'Server error', error });
   }
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Endpoint to create or update alumni profile
+app.post('/alumni', async (req, res) => {
+  const { email: emailObject, name, description, currentWorkingPlace, passedOutYear, skills, pastWorkingExperiences } = req.body;
+
+  // Extract email string from emailObject
+  const email = emailObject.email;
+
+  try {
+    const client = await connectToDatabase();
+    const database = client.db('studentApp');
+    
+    // Check if the profile exists
+    const existingProfile = await database.collection('alumniProfile').findOne({ email });
+
+    if (existingProfile) {
+      // Update existing profile
+      await database.collection('alumniProfile').updateOne(
+        { email },
+        {
+          $set: {
+            name,
+            description,
+            currentWorkingPlace,
+            passedOutYear,
+            skills,
+            pastWorkingExperiences,
+          },
+        }
+      );
+      res.status(200).json({ message: 'Profile updated successfully' });
+    } else {
+      // Insert new profile
+      await database.collection('alumniProfile').insertOne({
+        email, // Store email directly as a string
+        name,
+        description,
+        currentWorkingPlace,
+        passedOutYear,
+        skills,
+        pastWorkingExperiences,
+      });
+      res.status(201).json({ message: 'Profile created successfully' });
+    }
+  } catch (error) {
+    console.error('Error saving profile:', error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });

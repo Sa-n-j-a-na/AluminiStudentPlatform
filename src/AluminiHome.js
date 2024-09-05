@@ -1,25 +1,26 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Import Link
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Carousel } from 'react-bootstrap';
-import { FiShare2 } from 'react-icons/fi';
+import { Carousel } from 'react-bootstrap'; // Import Carousel
+import { FiShare2 } from 'react-icons/fi';  // Import FiShare2
 import "./App.css";
+import { Link } from "react-router-dom"; // Import Link
 
-function StudentHome(email) {
-  const [sidebarExpanded, setSidebarExpanded] = useState(false);
+
+function App(email) {
+  const [sidebarExpanded, setSidebarExpanded] = useState(false); // Define state for sidebar
   const [showDropdown, setShowDropdown] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState(null);
-  console.log(email);
 
   const handleSidebarToggle = () => {
-    setSidebarExpanded(!sidebarExpanded);
+    setSidebarExpanded(!sidebarExpanded); // Toggle sidebar expansion
   };
 
   const handleDropdownToggle = () => {
     setShowDropdown(!showDropdown);
   };
 
+  
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
@@ -38,9 +39,10 @@ function StudentHome(email) {
 
   return (
     <div className="container-fluid">
+      {/* Navbar */}
       <header className="row bg-light p-3 navbar">
         <div className="col-2 d-flex flex-column align-items-center">
-          <img
+          <img 
             src="https://via.placeholder.com/50"
             alt="Profile"
             className="img-fluid rounded-circle profile-img"
@@ -61,21 +63,24 @@ function StudentHome(email) {
             />
             <button className="btn btn-outline-secondary search-button">Search</button>
           </div>
+          
         </div>
         <button className="btn btn-primary post-button ms-3" onClick={togglePopup}>Post</button>
       </header>
 
+      {/* Dashboard Layout */}
       <div className="dashboard">
         <aside className={`sidebar ${sidebarExpanded ? 'expanded' : ''}`}>
           <div className="sidebar-header">
             <h1 className="brand">Dashboard</h1>
             <button className="toggle-btn" style={{ fontSize: '26px' }} onClick={handleSidebarToggle}>
-              {sidebarExpanded ? (
-                <span style={{ color: 'white !important', fontSize: '20px' }}>✖</span>
-              ) : (
-                '☰'
-              )}
-            </button>
+  {sidebarExpanded ? (
+    <span style={{ color: 'white !important', fontSize: '20px' }}>✖</span>
+  ) : (
+    '☰'
+  )}
+</button>
+
           </div>
           {sidebarExpanded && (
             <nav className="menu">
@@ -89,12 +94,14 @@ function StudentHome(email) {
                   </div>
                 )}
               </div>
-              <button className="menu-item">Alumni Directory</button>
+              <button className="menu-item">Student Directory</button>
             </nav>
           )}
         </aside>
 
+        {/* Main Content Area */}
         <main className={`content ${sidebarExpanded ? 'sidebar-expanded' : ''}`}>
+          {/* AI-driven Suggestion Posts - Carousel */}
           <section className="ai-suggestion mb-4">
             <h3>AI-driven Suggestion Post</h3>
             <Carousel>
@@ -134,9 +141,11 @@ function StudentHome(email) {
             </Carousel>
           </section>
 
+          {/* Trending Posts */}
           <section className="recent-posts">
             <h3>Recent and Trending Posts</h3>
             <div className="post-grid">
+              {/* Post 1 */}
               <div className="post">
                 <img src="https://via.placeholder.com/150" alt="Post 1" className="post-image" />
                 <div className="post-actions">
@@ -145,6 +154,7 @@ function StudentHome(email) {
                   <span><FiShare2 /> Share</span>
                 </div>
               </div>
+              {/* Post 2 */}
               <div className="post">
                 <img src="https://via.placeholder.com/150" alt="Post 2" className="post-image" />
                 <div className="post-actions">
@@ -153,6 +163,7 @@ function StudentHome(email) {
                   <span><FiShare2 /> Share</span>
                 </div>
               </div>
+              {/* Post 3 */}
               <div className="post">
                 <img src="https://via.placeholder.com/150" alt="Post 3" className="post-image" />
                 <div className="post-actions">
@@ -213,4 +224,4 @@ function StudentHome(email) {
   );
 }
 
-export default StudentHome;
+export default App;
