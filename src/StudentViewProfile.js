@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaEdit, FaPlus, FaSave, FaTrash } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom'; // Import useLocation
-import './StudentViewProfile.css';
+import './AlumniViewProfile.css';
 
 const StudentViewProfile = () => {
   const location = useLocation();
@@ -13,8 +13,8 @@ const StudentViewProfile = () => {
   const [newEvent, setNewEvent] = useState({ eventName: '', description: '' });
   const [editingCourse, setEditingCourse] = useState(false);
   const [course, setCourse] = useState('');
-  const [editingYear, setEditingYear] = useState(false);
-  const [year, setYear] = useState('');
+  const [editingCompany, setEditingCompany] = useState(false);
+  const [company, setCompany] = useState(''); // Changed "year" to "company"
   const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
 
@@ -34,7 +34,7 @@ const StudentViewProfile = () => {
           setSkills(data.skills || []);
           setEvents(data.eventsParticipations || []);
           setCourse(data.currentlyPursuing || '');
-          setYear(data.passedOutYear || '');
+          setCompany(data.interestedCompany || ''); // Updated field
           setName(data.name || '');
           setDescription(data.description || '');
           console.log(data);
@@ -122,7 +122,7 @@ const StudentViewProfile = () => {
           name,
           description,
           currentlyPursuing: course,
-          passedOutYear: year,
+          interestedCompany: company, // Changed from "year" to "company"
           skills: skills,
           eventsParticipations: events,
         }),
@@ -214,25 +214,25 @@ const StudentViewProfile = () => {
           )}
         </div>
 
-        {/* Passed Out Year Section */}
+        {/* Interested Company Section */}
         <div className="profile-section">
           <h4>
-            Passed Out Year
+            Interested Company {/* Updated label */}
             {editMode && (
-              <button className="btn btn-link" onClick={() => setEditingYear(!editingYear)}>
-                {editingYear ? <FaSave /> : <FaEdit />}
+              <button className="btn btn-link" onClick={() => setEditingCompany(!editingCompany)}>
+                {editingCompany ? <FaSave /> : <FaEdit />}
               </button>
             )}
           </h4>
-          {editingYear ? (
+          {editingCompany ? (
             <input
               type="text"
               className="form-control"
-              value={year}
-              onChange={(e) => setYear(e.target.value)}
+              value={company} // Updated state
+              onChange={(e) => setCompany(e.target.value)} // Updated handler
             />
           ) : (
-            <p>{year}</p>
+            <p>{company}</p> // Updated state
           )}
         </div>
 
@@ -288,23 +288,26 @@ const StudentViewProfile = () => {
               />
               <input
                 type="text"
-                className="form-control"
-                placeholder="Description"
+                className="form-control mt-2"
+                placeholder="Event Description"
                 value={newEvent.description}
                 onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
               />
-              <button className="btn btn-primary" onClick={handleAddEvent}>
-                <FaPlus />
+              <button className="btn btn-primary mt-2" onClick={handleAddEvent}>
+                <FaPlus /> Add Event
               </button>
             </div>
           )}
         </div>
       </div>
 
+      {/* Save Button */}
       {editMode && (
-        <button className="btn btn-success" onClick={handleSaveProfile}>
-          Save Profile
-        </button>
+        <div className="save-button-container text-center mt-4">
+          <button className="btn btn-success" onClick={handleSaveProfile}>
+            <FaSave /> Save Profile
+          </button>
+        </div>
       )}
     </div>
   );
