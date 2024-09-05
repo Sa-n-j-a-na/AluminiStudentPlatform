@@ -46,7 +46,7 @@ function StudentHome(email) {
             className="img-fluid rounded-circle profile-img"
           />
           <Link
-        to="/profile"
+        to="/studentprofile"
         state={{ email }} // Passing the email as state
         className="btn btn-link view-profile-btn">
         View Profile
