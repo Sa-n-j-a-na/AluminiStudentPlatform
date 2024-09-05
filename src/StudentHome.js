@@ -5,12 +5,16 @@ import { Carousel } from 'react-bootstrap';
 import { FiShare2 } from 'react-icons/fi';
 import "./App.css";
 
-function StudentHome(email) {
+function StudentHome({ email }) { // Destructure email from props
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState(null);
-  console.log(email);
+  const [postTitle, setPostTitle] = useState('');
+  const [postDescription, setPostDescription] = useState('');
+  const [postImage, setPostImage] = useState(null);
+
+  console.log(email); // This should now correctly show the email
 
   const handleSidebarToggle = () => {
     setSidebarExpanded(!sidebarExpanded);
@@ -27,14 +31,51 @@ function StudentHome(email) {
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setPostImage(file);
       setUploadedFileName(file.name);
     }
   };
-
+  
   const handleRemoveFile = () => {
     setUploadedFileName(null);
+    setPostImage(null); // Also reset postImage
   };
 
+  const handlePost = async () => {
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('title', postTitle);
+    formData.append('description', postDescription);
+    formData.append('image', postImage);
+    formData.append('date', new Date().toISOString());
+  
+    // Debugging
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+  
+    if (!postTitle || !postDescription || !postImage) {
+      alert('Please fill in all fields and upload an image.');
+      return;
+    }
+  
+    try {
+      const response = await fetch('http://localhost:5000/posts', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        alert('Post created successfully!');
+        togglePopup(); // Close the popup
+      } else {
+        alert('Error creating post.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error creating post.');
+    }
+  };
 
   return (
     <div className="container-fluid">
@@ -46,11 +87,12 @@ function StudentHome(email) {
             className="img-fluid rounded-circle profile-img"
           />
           <Link
-        to="/studentprofile"
-        state={{ email }} // Passing the email as state
-        className="btn btn-link view-profile-btn">
-        View Profile
-      </Link> {/* Update here */}
+            to="/studentprofile"
+            state={{ email }} // Passing the email as state
+            className="btn btn-link view-profile-btn"
+          >
+            View Profile
+          </Link>
         </div>
         <div className="col-8 d-flex align-items-center">
           <div className="input-group flex-grow-1">
@@ -79,7 +121,9 @@ function StudentHome(email) {
           </div>
           {sidebarExpanded && (
             <nav className="menu">
-              <button className="menu-item">My Posts</button>
+              <Link to="/myposts" className="menu-item btn">
+                My Posts
+              </Link>
               <button className="menu-item">Intern Scoop</button>
               <div className="menu-item tech-library" onClick={handleDropdownToggle}>
                 Tech Library
@@ -176,11 +220,32 @@ function StudentHome(email) {
               &times;
             </button>
             <h4>Create a Post</h4>
-            <textarea
-              className="form-control mb-3"
-              rows="3"
-              placeholder="Describe your post..."
-            ></textarea>
+
+            {/* Title Input Section */}
+            <div className="mb-3">
+              <label htmlFor="post-title" className="form-label">Title</label>
+              <input
+                id="post-title"
+                type="text"
+                className="form-control"
+                placeholder="Enter post title..."
+                value={postTitle} // Bind to state
+                onChange={(e) => setPostTitle(e.target.value)} // Update state
+              />
+            </div>
+
+            {/* Description Input Section */}
+            <div className="mb-3">
+              <label htmlFor="post-description" className="form-label">Description</label>
+              <textarea
+                id="post-description"
+                className="form-control"
+                rows="3"
+                placeholder="Describe your post..."
+                value={postDescription} // Bind to state
+                onChange={(e) => setPostDescription(e.target.value)} // Update state
+              ></textarea>
+            </div>
 
             {/* File Upload Section */}
             <div className="file-upload-section">
@@ -194,17 +259,12 @@ function StudentHome(email) {
               {uploadedFileName && (
                 <div className="uploaded-file mt-2">
                   <span>{uploadedFileName}</span>
-                  <button
-                    className="btn btn-danger btn-sm ms-2"
-                    onClick={handleRemoveFile}
-                  >
-                    Remove
-                  </button>
+                  <button className="btn btn-danger btn-sm ms-2" onClick={handleRemoveFile}>Remove</button>
                 </div>
               )}
             </div>
 
-            <button className="btn btn-primary mt-3">Post</button>
+            <button className="btn btn-primary mt-3" onClick={handlePost}>Post</button>
             <button className="btn btn-secondary mt-3 ms-2" onClick={togglePopup}>Cancel</button>
           </div>
         </div>

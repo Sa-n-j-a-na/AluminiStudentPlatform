@@ -1,0 +1,40 @@
+.my-post-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.post-heading {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.post-grid {
+  display: flex;
+  justify-content: space-between; /* Distributes space evenly between items */
+  gap: 20px;
+}
+
+.post {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  flex: 1; /* Makes posts flexible to fill the available space */
+  max-width: 30%; /* Ensures posts don’t grow too large */
+  box-sizing: border-box; /* Includes padding and border in width calculation */
+}
+
+.post-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.post-actions {
+  margin-top: 10px;
+}
+
+.post-actions span {
+  display: block;
+  margin: 5px 0;
+}

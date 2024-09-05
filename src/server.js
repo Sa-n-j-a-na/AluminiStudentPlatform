@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
+const multer = require('multer');
+const path = require('path');
 
 const app = express();
 const port = 5000;
@@ -161,6 +163,60 @@ app.get('/student', async (req, res) => {
       res.status(500).json({ message: 'Server error', error });
     }
   });
+
+  const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname));
+    }
+  });
+  
+  const upload = multer({ storage });
+  app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+  // Endpoint to create a post
+  app.post('/posts', upload.single('image'), async (req, res) => {
+    const { email, title, description, date } = req.body;
+    const image = req.file ? req.file.path : null;
+  
+    try {
+      const client = await connectToDatabase();
+      const database = client.db('studentApp');
+  
+      await database.collection('posts').insertOne({
+        email,
+        title,
+        description,
+        date,
+        image,
+      });
+  
+      res.status(201).json({ message: 'Post created successfully' });
+    } catch (error) {
+      console.error('Error creating post:', error);
+      res.status(500).json({ message: 'Server error', error });
+    }
+  });
+
+// Endpoint to get posts by email
+app.get('/myposts/:email', async (req, res) => {
+    const { email } = req.params;
+    console.log("Fetching posts for email: " + email);
+
+    try {
+      const client = await connectToDatabase();
+      const database = client.db('studentApp');
+      
+      const posts = await database.collection('posts').find({ email }).toArray();
+  
+      res.status(200).json(posts);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      res.status(500).json({ message: 'Server error', error });
+    }
+});
 
 // Start the server
 app.listen(port, () => {
