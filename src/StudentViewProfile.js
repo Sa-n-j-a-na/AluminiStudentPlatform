@@ -27,8 +27,7 @@ const StudentViewProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const email = profileEmail.email;
-        const response = await fetch(`http://localhost:5000/student?email=${email}`);
+        const response = await fetch(`http://localhost:5000/student?email=${profileEmail}`);
         if (response.ok) {
           const data = await response.json();
           setSkills(data.skills || []);
@@ -148,7 +147,7 @@ const StudentViewProfile = () => {
     <div className="profile-container">
       <div className="profile-header text-center">
         <img
-          src="https://via.placeholder.com/150"
+          src="/student.jpg"
           alt="Profile"
           className="rounded-circle profile-image"
         />

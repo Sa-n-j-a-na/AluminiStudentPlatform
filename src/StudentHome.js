@@ -7,7 +7,6 @@ import "./App.css";
 
 function StudentHome({ email }) { // Destructure email from props
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState(null);
   const [postTitle, setPostTitle] = useState('');
@@ -19,11 +18,6 @@ function StudentHome({ email }) { // Destructure email from props
   const handleSidebarToggle = () => {
     setSidebarExpanded(!sidebarExpanded);
   };
-
-  const handleDropdownToggle = () => {
-    setShowDropdown(!showDropdown);
-  };
-
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
@@ -82,7 +76,7 @@ function StudentHome({ email }) { // Destructure email from props
       <header className="row bg-light p-3 navbar">
         <div className="col-2 d-flex flex-column align-items-center">
           <img
-            src="https://via.placeholder.com/50"
+            src="/student.jpg"
             alt="Profile"
             className="img-fluid rounded-circle profile-img"
           />
@@ -124,16 +118,15 @@ function StudentHome({ email }) { // Destructure email from props
               <Link to="/myposts" className="menu-item btn">
                 My Posts
               </Link>
-              <button className="menu-item">Intern Scoop</button>
-              <div className="menu-item tech-library" onClick={handleDropdownToggle}>
-                Tech Library
-                {showDropdown && (
-                  <div className="dropdown">
-                    <button className="dropdown-item">Domain</button>
-                  </div>
-                )}
-              </div>
-              <button className="menu-item">Alumni Directory</button>
+              <Link to="/internscoop" className="menu-item btn"> {/* Added link to InternScoop */}
+                Intern Scoop
+              </Link>
+              <button className="menu-item">
+      <Link to="/student/tech-library" className="no-link-style">
+        Tech Library
+      </Link>
+    </button>
+    <Link to="/alumnidirectory" className="menu-item">Alumni Directory</Link>
             </nav>
           )}
         </aside>
@@ -144,8 +137,8 @@ function StudentHome({ email }) { // Destructure email from props
             <Carousel>
               <Carousel.Item>
                 <img
-                  className="d-block w-100"
-                  src="https://via.placeholder.com/800x300"
+                  className="carousel-img"
+                  src="\uploads\1725585416397.jpeg"
                   alt="First slide"
                 />
                 <Carousel.Caption>
@@ -155,8 +148,8 @@ function StudentHome({ email }) { // Destructure email from props
               </Carousel.Item>
               <Carousel.Item>
                 <img
-                  className="d-block w-100"
-                  src="https://via.placeholder.com/800x300"
+                  className="carousel-img"
+                  src="\uploads\1725586785827.jpg"
                   alt="Second slide"
                 />
                 <Carousel.Caption>
@@ -166,8 +159,8 @@ function StudentHome({ email }) { // Destructure email from props
               </Carousel.Item>
               <Carousel.Item>
                 <img
-                  className="d-block w-100"
-                  src="https://via.placeholder.com/800x300"
+                  className="carousel-img"
+                  src="\uploads\1725597512774.jpeg"
                   alt="Third slide"
                 />
                 <Carousel.Caption>
@@ -182,7 +175,7 @@ function StudentHome({ email }) { // Destructure email from props
             <h3>Recent and Trending Posts</h3>
             <div className="post-grid">
               <div className="post">
-                <img src="https://via.placeholder.com/150" alt="Post 1" className="post-image" />
+                <img src="\uploads\1725585309937.jpeg" alt="Post 1" className="post-image" />
                 <div className="post-actions">
                   <span>👍 20</span>
                   <span>💬 2</span>
@@ -190,7 +183,7 @@ function StudentHome({ email }) { // Destructure email from props
                 </div>
               </div>
               <div className="post">
-                <img src="https://via.placeholder.com/150" alt="Post 2" className="post-image" />
+                <img src="\uploads\1725586785827.jpg" alt="Post 2" className="post-image" />
                 <div className="post-actions">
                   <span>👍 15</span>
                   <span>💬 5</span>
@@ -198,7 +191,7 @@ function StudentHome({ email }) { // Destructure email from props
                 </div>
               </div>
               <div className="post">
-                <img src="https://via.placeholder.com/150" alt="Post 3" className="post-image" />
+                <img src="\uploads\1725597512774.jpeg" alt="Post 3" className="post-image" />
                 <div className="post-actions">
                   <span>👍 30</span>
                   <span>💬 8</span>

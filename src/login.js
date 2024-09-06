@@ -15,54 +15,63 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div className='container'>
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleLogin}>
-        <img src="/image1.png" alt="Login" className="login-image" />
-        <h2>Login</h2>
-        <div className="radio-container">
-          <label>
+    <div className="login-background">
+      <div className="login-wrapper">
+        <div className="login-box">
+          <div className="login-header">
+            <div className="login-icon">
+              <img src="/image1.png" alt="Login" className="login-image" />
+            </div>
+          </div>
+          <h2 className="login-title">Login</h2>
+          <form className="login-form" onSubmit={handleLogin}>
+            <div className="role-selection">
+              <label>
+                <input 
+                  type="radio" 
+                  value="student" 
+                  checked={role === 'student'} 
+                  onChange={() => setRole('student')} 
+                />
+                Student
+              </label>
+              <label>
+                <input 
+                  type="radio" 
+                  value="alumni" 
+                  checked={role === 'alumni'} 
+                  onChange={() => setRole('alumni')} 
+                />
+                Alumni
+              </label>
+            </div>
             <input 
-              type="radio" 
-              value="student" 
-              checked={role === 'student'} 
-              onChange={() => setRole('student')} 
+              type="email" 
+              id="email" 
+              placeholder="Username"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required 
+              className="login-input"
             />
-            Student
-          </label>
-          <label>
             <input 
-              type="radio" 
-              value="alumni" 
-              checked={role === 'alumni'} 
-              onChange={() => setRole('alumni')} 
+              type="password" 
+              id="password" 
+              placeholder="***********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required 
+              className="login-input"
             />
-            Alumni
-          </label>
+            <div className="remember-me">
+              <input type="checkbox" id="remember" />
+              <label htmlFor="remember">Remember me</label>
+              <a href="#" className="forgot-password">Forgot Password?</a>
+            </div>
+            <button type="submit" className="login-btn">Login</button>
+          </form>
         </div>
-        <div className="input-container">
-          <label htmlFor="email">Email</label>
-          <input 
-            type="email" 
-            id="email" 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required 
-          />
-        </div>
-        <div className="input-container">
-          <label htmlFor="password">Password</label>
-          <input 
-            type="password" 
-            id="password" 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required 
-          />
-        </div>
-        <button type="submit" className="login-btn">Submit</button>
-      </form>
-    </div>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,78 @@
+.tech-library-container {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    height: 700px;
+  }
+  
+  .folder {
+    background-color:black;
+    color: white;
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    height: 140px;
+  }
+  
+  .folder:hover {
+    transform: scale(1.05);
+  }
+  
+  .folder-content h2 {
+    color:black;
+  }
+  .folders-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Allows wrapping of folders on smaller screens */
+  gap: 20px; /* Space between folders */
+  min-height: 50vh;
+}
+
+.folder-item {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  width: 250px; /* Set equal width for each folder */
+  height: 150px; /* Set equal height for each folder */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.folder-item:hover {
+  background-color: #007bff;
+  color: white;
+  transform: translateY(-5px); /* Add a slight hover animation */
+}
+
+.folder-item h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .folder-item {
+    width: 200px; /* Adjust the size for smaller screens */
+    height: 120px;
+  }
+}
+
+  .file-upload-section {
+    border: 2px dashed black;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+  }
+  
+  .uploaded-files p {
+    color: #6c757d;
+  }
+  

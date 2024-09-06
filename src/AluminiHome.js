@@ -8,20 +8,18 @@ import { Link } from "react-router-dom"; // Import Link
 
 function App(email) {
   const [sidebarExpanded, setSidebarExpanded] = useState(false); // Define state for sidebar
-  const [showDropdown, setShowDropdown] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState(null);
   const [postTitle, setPostTitle] = useState('');
   const [postDescription, setPostDescription] = useState('');
   const [postImage, setPostImage] = useState(null);
 
+  console.log(email);
+
   const handleSidebarToggle = () => {
     setSidebarExpanded(!sidebarExpanded); // Toggle sidebar expansion
   };
 
-  const handleDropdownToggle = () => {
-    setShowDropdown(!showDropdown);
-  };
 
   
   const togglePopup = () => {
@@ -41,8 +39,9 @@ function App(email) {
   };
 
   const handlePost = async () => {
+    const emailString = typeof email === 'object' ? email.email : email;
     const formData = new FormData();
-    formData.append('email', email);
+    formData.append('email', emailString);
     formData.append('title', postTitle);
     formData.append('description', postDescription);
     formData.append('image', postImage);
@@ -83,7 +82,7 @@ function App(email) {
       <header className="row bg-light p-3 navbar">
         <div className="col-2 d-flex flex-column align-items-center">
           <img 
-            src="https://via.placeholder.com/50"
+            src="/alumni.jpg"
             alt="Profile"
             className="img-fluid rounded-circle profile-img"
           />
@@ -126,15 +125,13 @@ function App(email) {
               <Link to="/myposts" className="menu-item btn">
                 My Posts
               </Link>
-              <button className="menu-item">Intern Scoop</button>
-              <div className="menu-item tech-library" onClick={handleDropdownToggle}>
-                Tech Library
-                {showDropdown && (
-                  <div className="dropdown">
-                    <button className="dropdown-item">Domain</button>
-                  </div>
-                )}
-              </div>
+              <Link to="/internscoop" className="menu-item btn"> {/* Added link to InternScoop */}
+                Intern Scoop
+              </Link>
+              <button className="menu-item"> <Link to="/alumni/tech-library" className="no-link-style">
+        Access Tech Library
+      </Link></button>
+
               <button className="menu-item">Student Directory</button>
             </nav>
           )}
@@ -148,8 +145,8 @@ function App(email) {
             <Carousel>
               <Carousel.Item>
                 <img
-                  className="d-block w-100"
-                  src="https://via.placeholder.com/800x300"
+                  className="carousel-img"
+                  src="\uploads\1725585416397.jpeg"
                   alt="First slide"
                 />
                 <Carousel.Caption>
@@ -159,8 +156,8 @@ function App(email) {
               </Carousel.Item>
               <Carousel.Item>
                 <img
-                  className="d-block w-100"
-                  src="https://via.placeholder.com/800x300"
+                  className="carousel-img"
+                  src="\uploads\1725586785827.jpg"
                   alt="Second slide"
                 />
                 <Carousel.Caption>
@@ -170,8 +167,8 @@ function App(email) {
               </Carousel.Item>
               <Carousel.Item>
                 <img
-                  className="d-block w-100"
-                  src="https://via.placeholder.com/800x300"
+                  className="carousel-img"
+                  src="\uploads\1725597512774.jpeg"
                   alt="Third slide"
                 />
                 <Carousel.Caption>
@@ -188,7 +185,7 @@ function App(email) {
             <div className="post-grid">
               {/* Post 1 */}
               <div className="post">
-                <img src="https://via.placeholder.com/150" alt="Post 1" className="post-image" />
+                <img src="\uploads\1725597512774.jpeg" alt="Post 1" className="post-image" />
                 <div className="post-actions">
                   <span>👍 20</span>
                   <span>💬 2</span>
@@ -197,7 +194,7 @@ function App(email) {
               </div>
               {/* Post 2 */}
               <div className="post">
-                <img src="https://via.placeholder.com/150" alt="Post 2" className="post-image" />
+                <img src="\uploads\1725586785827.jpg" alt="Post 2" className="post-image" />
                 <div className="post-actions">
                   <span>👍 15</span>
                   <span>💬 5</span>
@@ -206,7 +203,7 @@ function App(email) {
               </div>
               {/* Post 3 */}
               <div className="post">
-                <img src="https://via.placeholder.com/150" alt="Post 3" className="post-image" />
+                <img src="\uploads\1725585309937.jpeg" alt="Post 3" className="post-image" />
                 <div className="post-actions">
                   <span>👍 30</span>
                   <span>💬 8</span>

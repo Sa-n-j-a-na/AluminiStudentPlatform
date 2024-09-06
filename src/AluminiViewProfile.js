@@ -149,7 +149,7 @@ const AlumniViewProfile = () => {
     <div className="profile-container">
       <div className="profile-header text-center">
         <img
-          src="https://via.placeholder.com/150"
+          src="/alumni.jpg"
           alt="Profile"
           className="rounded-circle profile-image"
         />

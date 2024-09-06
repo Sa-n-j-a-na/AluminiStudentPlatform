@@ -6,6 +6,10 @@ import AlumniViewProfile from './AluminiViewProfile';
 import StudentViewProfile from './StudentViewProfile'; 
 import AlumniHome from './AluminiHome';
 import MyPost from './MyPost';
+import InternScoop from './InternScoop'; // Import InternScoop
+import TechLibrary from "./TechLibrary";
+import UploadPage from './UploadPage';
+import AlumniDirectory from './AlumniDirectory'; // Import the new component
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,6 +36,11 @@ function App() {
             <Route path="/profile" element={<AlumniViewProfile email={email} />} />
             <Route path="/studentprofile" element={<StudentViewProfile email={email} />} />
             <Route path="/myposts" element={<MyPost email={email} />} /> {/* Pass email to MyPost */}
+            <Route path="/internscoop" element={<InternScoop email={email} />} /> {/* Added route for InternScoop */}
+            <Route path="/alumni/tech-library" element={<TechLibrary role="alumni" email={email} />} />
+            <Route path="/student/tech-library" element={<TechLibrary role="student" />} />
+            <Route path="/upload" element={<UploadPage />} />
+            <Route path="/alumnidirectory" element={<AlumniDirectory />} /> {/* Add this route */}
           </>
         )}
       </Routes>

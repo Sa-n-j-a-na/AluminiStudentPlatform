@@ -23,8 +23,8 @@
 }
 
 .profile-img {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
 }
 
@@ -73,6 +73,11 @@
  width: 80px;
     transition: width 0.3s ease;
   
+}
+
+.no-link-style{
+  color: inherit;
+  text-decoration: none;
 }
 
 .sidebar.expanded {
@@ -182,6 +187,11 @@
   border-radius: 8px;
   padding: 15px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.carousel-img {
+  width: 100%;
+  height: 400px; /* Adjust height as per your need */
+  object-fit: fit; /* Ensures the image covers the entire area while maintaining aspect ratio */
 }
 
 .ai-suggestion .card img {

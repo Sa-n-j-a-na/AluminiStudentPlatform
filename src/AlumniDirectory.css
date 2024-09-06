@@ -1,0 +1,45 @@
+.alumni-directory-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .alumni-heading {
+    margin-bottom: 20px;
+    font-size: 2rem;
+  }
+  
+  .search-bar {
+    width: 40%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+  
+  .alumni-table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  
+  .alumni-table th,
+  .alumni-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .alumni-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .alumni-table td {
+    background-color: #fff;
+  }
+  
+  .alumni-table tr:nth-child(even) td {
+    background-color: #f9f9f9;
+  }
+  
