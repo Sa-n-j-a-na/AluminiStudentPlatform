@@ -66,7 +66,7 @@ const Login = ({ onLogin }) => {
             <div className="remember-me">
               <input type="checkbox" id="remember" />
               <label htmlFor="remember">Remember me</label>
-              <a href="#" className="forgot-password">Forgot Password?</a>
+              <a href="/home" className="forgot-password">Forgot Password?</a>
             </div>
             <button type="submit" className="login-btn">Login</button>
           </form>
