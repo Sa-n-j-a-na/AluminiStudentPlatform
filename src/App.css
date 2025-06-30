@@ -5,7 +5,7 @@
   flex-direction: column;
 }
 
-/* Navbar Styles */
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -191,7 +191,8 @@
 .carousel-img {
   width: 100%;
   height: 400px; /* Adjust height as per your need */
-  object-fit: fit; /* Ensures the image covers the entire area while maintaining aspect ratio */
+  object-fit: cover;
+ /* Ensures the image covers the entire area while maintaining aspect ratio */
 }
 
 .ai-suggestion .card img {
