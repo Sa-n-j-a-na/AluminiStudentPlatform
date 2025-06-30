@@ -13,17 +13,16 @@ const app = express();
 const port = 5000;
 
 // MongoDB connection URI
-const uri = "mongodb://localhost:27017";
+// MongoDB Atlas connection URI
+const uri = "mongodb+srv://userm:userm%40123@cluster0.kpfqhxh.mongodb.net/studentApp?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 
 // MongoDB connection URI for Mongoose
-const mongooseUri = 'mongodb://localhost:27017/studentApp'; // Use your actual database name
+const mongooseUri = "mongodb+srv://userm:userm%40123@cluster0.kpfqhxh.mongodb.net/studentApp?retryWrites=true&w=majority";
+
 
 // Connect to MongoDB using Mongoose
-mongoose.connect(mongooseUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
+mongoose.connect(mongooseUri).then(() => {
   console.log('Mongoose connected to MongoDB');
 }).catch((error) => {
   console.error('Error connecting to MongoDB:', error);
