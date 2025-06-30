@@ -126,7 +126,7 @@ function StudentHome({ email }) { // Destructure email from props
         Tech Library
       </Link>
     </button>
-    <Link to="/alumnidirectory" className="menu-item">Alumni Directory</Link>
+    <Link to="/alumnidirectory" className="menu-item no-link-style">Alumni Directory</Link>
             </nav>
           )}
         </aside>
