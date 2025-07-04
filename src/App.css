@@ -13,7 +13,7 @@
   padding: 10px 20px;
   background-color: #f8f9fa;
   border-bottom: 1px solid #dee2e6;
-  margin-bottom: 20px; /* Margin-bottom added for spacing */
+  margin-bottom: 20px; 
 }
 
 .navbar-left {
@@ -40,7 +40,7 @@
 }
 
 .search-input {
-  width: calc(100% - 120px); /* Adjust width to fit the buttons */
+  width: calc(100% - 120px); 
 }
 
 .search-button {
@@ -52,11 +52,10 @@
   width: 80px;
 }
 
-/* Dashboard Layout */
 .dashboard {
   display: flex;
   flex: 1;
-  height: calc(100vh - 80px); /* Adjust height considering navbar height */
+  height: calc(100vh - 80px); 
 }
 
 /* Sidebar Styles */

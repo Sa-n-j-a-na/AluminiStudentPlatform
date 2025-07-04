@@ -1,27 +1,22 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Carousel } from 'react-bootstrap'; // Import Carousel
-import { FiShare2 } from 'react-icons/fi';  // Import FiShare2
+import { Carousel } from 'react-bootstrap';
+import { FiShare2 } from 'react-icons/fi';
 import "./App.css";
-import { Link } from "react-router-dom"; // Import Link
-
+import { Link } from "react-router-dom";
 
 function App(email) {
-  const [sidebarExpanded, setSidebarExpanded] = useState(false); // Define state for sidebar
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState(null);
   const [postTitle, setPostTitle] = useState('');
   const [postDescription, setPostDescription] = useState('');
   const [postImage, setPostImage] = useState(null);
 
-  console.log(email);
-
   const handleSidebarToggle = () => {
-    setSidebarExpanded(!sidebarExpanded); // Toggle sidebar expansion
+    setSidebarExpanded(!sidebarExpanded);
   };
 
-
-  
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
@@ -46,26 +41,21 @@ function App(email) {
     formData.append('description', postDescription);
     formData.append('image', postImage);
     formData.append('date', new Date().toISOString());
-  
-    // Debugging
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-  
+
     if (!postTitle || !postDescription || !postImage) {
       alert('Please fill in all fields and upload an image.');
       return;
     }
-  
+
     try {
       const response = await fetch('http://localhost:5000/posts', {
         method: 'POST',
         body: formData,
       });
-  
+
       if (response.ok) {
         alert('Post created successfully!');
-        togglePopup(); // Close the popup
+        togglePopup();
       } else {
         alert('Error creating post.');
       }
@@ -75,23 +65,23 @@ function App(email) {
     }
   };
 
-
   return (
     <div className="container-fluid">
       {/* Navbar */}
       <header className="row bg-light p-3 navbar">
         <div className="col-2 d-flex flex-column align-items-center">
-          <img 
+          <img
             src="/alumni.jpg"
             alt="Profile"
             className="img-fluid rounded-circle profile-img"
           />
           <Link
-        to="/profile"
-        state={{ email }} // Passing the email as state
-        className="btn btn-link view-profile-btn">
-        View Profile
-      </Link> {/* Update here */}
+            to="/profile"
+            state={{ email }}
+            className="btn btn-link view-profile-btn"
+          >
+            View Profile
+          </Link>
         </div>
         <div className="col-8 d-flex align-items-center">
           <div className="input-group flex-grow-1">
@@ -102,51 +92,43 @@ function App(email) {
             />
             <button className="btn btn-outline-secondary search-button">Search</button>
           </div>
-          
         </div>
         <button className="btn btn-primary post-button ms-3" onClick={togglePopup}>Post</button>
       </header>
 
-      {/* Dashboard Layout */}
       <div className="dashboard">
         <aside className={`sidebar ${sidebarExpanded ? 'expanded' : ''}`}>
           <div className="sidebar-header">
             <h1 className="brand">Dashboard</h1>
             <button className="toggle-btn" style={{ fontSize: '26px' }} onClick={handleSidebarToggle}>
-  {sidebarExpanded ? (
-    <span style={{ color: 'white !important', fontSize: '20px' }}>✖</span>
-  ) : (
-    '☰'
-  )}
-</button>
+              {sidebarExpanded ? (
+                <span style={{ color: 'white', fontSize: '20px' }}>✖</span>
+              ) : (
+                '☰'
+              )}
+            </button>
           </div>
           {sidebarExpanded && (
             <nav className="menu">
-              <Link to="/myposts" className="menu-item btn">
-                My Posts
-              </Link>
-              <Link to="/internscoop" className="menu-item btn"> {/* Added link to InternScoop */}
-                Intern Scoop
-              </Link>
-              <button className="menu-item"> <Link to="/alumni/tech-library" className="no-link-style">
-        Access Tech Library
-      </Link></button>
-
+              <Link to="/myposts" className="menu-item btn">My Posts</Link>
+              <Link to="/internscoop" className="menu-item btn">Intern Scoop</Link>
+              <button className="menu-item">
+                <Link to="/alumni/tech-library" className="no-link-style">Access Tech Library</Link>
+              </button>
               <button className="menu-item">Student Directory</button>
             </nav>
           )}
         </aside>
 
-        {/* Main Content Area */}
         <main className={`content ${sidebarExpanded ? 'sidebar-expanded' : ''}`}>
-          {/* AI-driven Suggestion Posts - Carousel */}
+          {/* AI-driven Suggestions */}
           <section className="ai-suggestion mb-4">
             <h3>AI-driven Suggestion Post</h3>
             <Carousel>
               <Carousel.Item>
                 <img
                   className="carousel-img"
-                  src="\uploads\1725585416397.jpeg"
+                  src="/uploads/1725585416397.jpeg"
                   alt="First slide"
                 />
                 <Carousel.Caption>
@@ -157,7 +139,7 @@ function App(email) {
               <Carousel.Item>
                 <img
                   className="carousel-img"
-                  src="\uploads\1725586785827.jpg"
+                  src="/uploads/1725586785827.jpg"
                   alt="Second slide"
                 />
                 <Carousel.Caption>
@@ -168,7 +150,7 @@ function App(email) {
               <Carousel.Item>
                 <img
                   className="carousel-img"
-                  src="\uploads\1725597512774.jpeg"
+                  src="/uploads/1725597512774.jpeg"
                   alt="Third slide"
                 />
                 <Carousel.Caption>
@@ -183,27 +165,24 @@ function App(email) {
           <section className="recent-posts">
             <h3>Recent and Trending Posts</h3>
             <div className="post-grid">
-              {/* Post 1 */}
               <div className="post">
-                <img src="\uploads\1725597512774.jpeg" alt="Post 1" className="post-image" />
+                <img src="/uploads/1725597512774.jpeg" alt="Post 1" className="post-image" />
                 <div className="post-actions">
                   <span>👍 20</span>
                   <span>💬 2</span>
                   <span><FiShare2 /> Share</span>
                 </div>
               </div>
-              {/* Post 2 */}
               <div className="post">
-                <img src="\uploads\1725586785827.jpg" alt="Post 2" className="post-image" />
+                <img src="/uploads/1725586785827.jpg" alt="Post 2" className="post-image" />
                 <div className="post-actions">
                   <span>👍 15</span>
                   <span>💬 5</span>
                   <span><FiShare2 /> Share</span>
                 </div>
               </div>
-              {/* Post 3 */}
               <div className="post">
-                <img src="\uploads\1725585309937.jpeg" alt="Post 3" className="post-image" />
+                <img src="/uploads/1725585309937.jpeg" alt="Post 3" className="post-image" />
                 <div className="post-actions">
                   <span>👍 30</span>
                   <span>💬 8</span>
@@ -214,19 +193,15 @@ function App(email) {
           </section>
         </main>
       </div>
+
       {/* Popup for Post */}
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup">
-            <button
-              className="btn-close position-absolute top-0 end-0 m-2"
-              onClick={togglePopup}
-            >
+            <button className="btn-close position-absolute top-0 end-0 m-2" onClick={togglePopup}>
               &times;
             </button>
             <h4>Create a Post</h4>
-
-            {/* Title Input Section */}
             <div className="mb-3">
               <label htmlFor="post-title" className="form-label">Title</label>
               <input
@@ -234,12 +209,10 @@ function App(email) {
                 type="text"
                 className="form-control"
                 placeholder="Enter post title..."
-                value={postTitle} // Bind to state
-                onChange={(e) => setPostTitle(e.target.value)} // Update state
+                value={postTitle}
+                onChange={(e) => setPostTitle(e.target.value)}
               />
             </div>
-
-            {/* Description Input Section */}
             <div className="mb-3">
               <label htmlFor="post-description" className="form-label">Description</label>
               <textarea
@@ -247,12 +220,10 @@ function App(email) {
                 className="form-control"
                 rows="3"
                 placeholder="Describe your post..."
-                value={postDescription} // Bind to state
-                onChange={(e) => setPostDescription(e.target.value)} // Update state
+                value={postDescription}
+                onChange={(e) => setPostDescription(e.target.value)}
               ></textarea>
             </div>
-
-            {/* File Upload Section */}
             <div className="file-upload-section">
               <label htmlFor="file-upload" className="btn btn-secondary">Upload Image</label>
               <input
@@ -268,7 +239,6 @@ function App(email) {
                 </div>
               )}
             </div>
-
             <button className="btn btn-primary mt-3" onClick={handlePost}>Post</button>
             <button className="btn btn-secondary mt-3 ms-2" onClick={togglePopup}>Cancel</button>
           </div>
