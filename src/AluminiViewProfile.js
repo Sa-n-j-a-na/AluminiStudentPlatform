@@ -6,7 +6,7 @@ import './AlumniViewProfile.css';
 
 const AlumniViewProfile = () => {
   const location = useLocation();
-  const { email: profileEmail } = location.state || {}; // Get email from state
+const profileEmail = location.state?.email || '';
   const [skills, setSkills] = useState([]);
   const [experiences, setExperiences] = useState([]);
   const [newSkill, setNewSkill] = useState('');
@@ -61,7 +61,7 @@ const AlumniViewProfile = () => {
       setNewSkill('');
 
       try {
-        await fetch(`/alumni`, {
+        await fetch(`http://localhost:5000/alumni`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

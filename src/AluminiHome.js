@@ -1,51 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Carousel } from 'react-bootstrap';
 import { FiShare2 } from 'react-icons/fi';
 import "./App.css";
 import { Link } from "react-router-dom";
 
-function App(email) {
+function AluminiHome({ email }) {
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState(null);
   const [postTitle, setPostTitle] = useState('');
   const [postDescription, setPostDescription] = useState('');
   const [postImage, setPostImage] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleSidebarToggle = () => {
-    setSidebarExpanded(!sidebarExpanded);
-  };
-
-  const togglePopup = () => {
-    setShowPopup(!showPopup);
-  };
+  const handleSidebarToggle = () => setSidebarExpanded(!sidebarExpanded);
+  const togglePopup = () => setShowPopup(!showPopup);
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    if (file) {
+    if (file && file.type.startsWith('image/')) {
       setPostImage(file);
       setUploadedFileName(file.name);
+    } else {
+      alert('Please upload a valid image file.');
     }
   };
 
   const handleRemoveFile = () => {
     setUploadedFileName(null);
+    setPostImage(null);
   };
 
   const handlePost = async () => {
-    const emailString = typeof email === 'object' ? email.email : email;
-    const formData = new FormData();
-    formData.append('email', emailString);
-    formData.append('title', postTitle);
-    formData.append('description', postDescription);
-    formData.append('image', postImage);
-    formData.append('date', new Date().toISOString());
-
     if (!postTitle || !postDescription || !postImage) {
       alert('Please fill in all fields and upload an image.');
       return;
     }
+
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('title', postTitle);
+    formData.append('description', postDescription);
+    formData.append('image', postImage);
+    formData.append('date', new Date().toISOString());
 
     try {
       const response = await fetch('http://localhost:5000/posts', {
@@ -55,7 +54,12 @@ function App(email) {
 
       if (response.ok) {
         alert('Post created successfully!');
+        setPostTitle('');
+        setPostDescription('');
+        setUploadedFileName(null);
+        setPostImage(null);
         togglePopup();
+        fetchPosts(); // Reload posts after upload
       } else {
         alert('Error creating post.');
       }
@@ -64,6 +68,22 @@ function App(email) {
       alert('Error creating post.');
     }
   };
+
+  const fetchPosts = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`http://localhost:5000/myposts/${email}`);
+      const data = await response.json();
+      setPosts(data);
+    } catch (err) {
+      console.error('Error fetching posts:', err);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   return (
     <div className="container-fluid">
@@ -75,11 +95,7 @@ function App(email) {
             alt="Profile"
             className="img-fluid rounded-circle profile-img"
           />
-          <Link
-            to="/profile"
-            state={{ email }}
-            className="btn btn-link view-profile-btn"
-          >
+          <Link to="/profile" state={{ email }} className="btn btn-link view-profile-btn">
             View Profile
           </Link>
         </div>
@@ -97,6 +113,7 @@ function App(email) {
       </header>
 
       <div className="dashboard">
+        {/* Sidebar */}
         <aside className={`sidebar ${sidebarExpanded ? 'expanded' : ''}`}>
           <div className="sidebar-header">
             <h1 className="brand">Dashboard</h1>
@@ -112,47 +129,34 @@ function App(email) {
             <nav className="menu">
               <Link to="/myposts" className="menu-item btn">My Posts</Link>
               <Link to="/internscoop" className="menu-item btn">Intern Scoop</Link>
-              <button className="menu-item">
-                <Link to="/alumni/tech-library" className="no-link-style">Access Tech Library</Link>
-              </button>
-              <button className="menu-item">Student Directory</button>
+              <Link to="/alumni/tech-library" className="menu-item btn">Access Tech Library</Link>
+              <Link to="/alumnidirectory" className="menu-item btn">Alumni Directory</Link>
             </nav>
           )}
         </aside>
 
+        {/* Main Content */}
         <main className={`content ${sidebarExpanded ? 'sidebar-expanded' : ''}`}>
-          {/* AI-driven Suggestions */}
+          {/* AI Suggestion Carousel */}
           <section className="ai-suggestion mb-4">
             <h3>AI-driven Suggestion Post</h3>
             <Carousel>
               <Carousel.Item>
-                <img
-                  className="carousel-img"
-                  src="/uploads/1725585416397.jpeg"
-                  alt="First slide"
-                />
+                <img className="carousel-img" src="/uploads/1725585416397.jpeg" alt="First slide" />
                 <Carousel.Caption>
                   <h5>First AI Suggested Post</h5>
                   <p>Based on your skills and interests.</p>
                 </Carousel.Caption>
               </Carousel.Item>
               <Carousel.Item>
-                <img
-                  className="carousel-img"
-                  src="/uploads/1725586785827.jpg"
-                  alt="Second slide"
-                />
+                <img className="carousel-img" src="/uploads/1725586785827.jpg" alt="Second slide" />
                 <Carousel.Caption>
                   <h5>Second AI Suggested Post</h5>
                   <p>Explore new opportunities.</p>
                 </Carousel.Caption>
               </Carousel.Item>
               <Carousel.Item>
-                <img
-                  className="carousel-img"
-                  src="/uploads/1725597512774.jpeg"
-                  alt="Third slide"
-                />
+                <img className="carousel-img" src="/uploads/1725597512774.jpeg" alt="Third slide" />
                 <Carousel.Caption>
                   <h5>Third AI Suggested Post</h5>
                   <p>Enhance your skills with these resources.</p>
@@ -164,37 +168,29 @@ function App(email) {
           {/* Trending Posts */}
           <section className="recent-posts">
             <h3>Recent and Trending Posts</h3>
-            <div className="post-grid">
-              <div className="post">
-                <img src="/uploads/1725597512774.jpeg" alt="Post 1" className="post-image" />
-                <div className="post-actions">
-                  <span>👍 20</span>
-                  <span>💬 2</span>
-                  <span><FiShare2 /> Share</span>
-                </div>
+            {loading ? (
+              <p>Loading posts...</p>
+            ) : posts.length === 0 ? (
+              <p>No posts found.</p>
+            ) : (
+              <div className="post-grid">
+                {posts.map((post) => (
+                  <div className="post" key={post._id}>
+                    <img src={post.image} alt={post.title} className="post-image" />
+                    <div className="post-actions">
+                      <span>👍 0</span>
+                      <span>💬 0</span>
+                      <span><FiShare2 /> Share</span>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="post">
-                <img src="/uploads/1725586785827.jpg" alt="Post 2" className="post-image" />
-                <div className="post-actions">
-                  <span>👍 15</span>
-                  <span>💬 5</span>
-                  <span><FiShare2 /> Share</span>
-                </div>
-              </div>
-              <div className="post">
-                <img src="/uploads/1725585309937.jpeg" alt="Post 3" className="post-image" />
-                <div className="post-actions">
-                  <span>👍 30</span>
-                  <span>💬 8</span>
-                  <span><FiShare2 /> Share</span>
-                </div>
-              </div>
-            </div>
+            )}
           </section>
         </main>
       </div>
 
-      {/* Popup for Post */}
+      {/* Post Popup */}
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup">
@@ -229,6 +225,7 @@ function App(email) {
               <input
                 id="file-upload"
                 type="file"
+                accept="image/*"
                 onChange={handleFileUpload}
                 style={{ display: 'none' }}
               />
@@ -248,4 +245,4 @@ function App(email) {
   );
 }
 
-export default App;
+export default AluminiHome;
