@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './login';
-import StudentHome from './StudentHome';
-import AlumniViewProfile from './AluminiViewProfile'; 
-import StudentViewProfile from './StudentViewProfile'; 
-import AlumniHome from './AluminiHome';
-import MyPost from './MyPost';
-import InternScoop from './InternScoop'; // Import InternScoop
-import TechLibrary from "./TechLibrary";
-import UploadPage from './UploadPage';
-import AlumniDirectory from './AlumniDirectory'; // Import the new component
+import Login from './login.js';
+import StudentHome from './StudentHome.js';
+import AlumniViewProfile from './AluminiViewProfile.js'; 
+import StudentViewProfile from './StudentViewProfile.js'; 
+import AlumniHome from './AluminiHome.js';
+import MyPost from './MyPost.js';
+import InternScoop from './InternScoop.js'; // Import InternScoop
+import TechLibrary from "./TechLibrary.js";
+import UploadPage from './UploadPage.js';
+import AlumniDirectory from './AlumniDirectory.js'; // Import the new component
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

@@ -119,7 +119,7 @@ const AlumniViewProfile = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: profileEmail, // Ensure email is part of the request body
+          email: profileEmail ,  // Ensure email is part of the request body
           name,
           description,
           currentWorkingPlace: company,

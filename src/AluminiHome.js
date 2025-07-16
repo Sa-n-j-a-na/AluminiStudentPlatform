@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Carousel } from 'react-bootstrap'; // Import Carousel
 import { FiShare2 } from 'react-icons/fi';  // Import FiShare2
@@ -13,6 +13,7 @@ function App(email) {
   const [postTitle, setPostTitle] = useState('');
   const [postDescription, setPostDescription] = useState('');
   const [postImage, setPostImage] = useState(null);
+  const [recentPosts, setRecentPosts] = useState([]);
 
   console.log(email);
 
@@ -75,6 +76,19 @@ function App(email) {
     }
   };
 
+  useEffect(() => {
+    const fetchRecentPosts = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/recent-posts');
+        const data = await response.json();
+        setRecentPosts(data);
+      } catch (error) {
+        console.error('Error fetching recent posts:', error);
+      }
+    };
+
+    fetchRecentPosts();
+  }, []);
 
   return (
     <div className="container-fluid">
@@ -141,7 +155,7 @@ function App(email) {
         <main className={`content ${sidebarExpanded ? 'sidebar-expanded' : ''}`}>
           {/* AI-driven Suggestion Posts - Carousel */}
           <section className="ai-suggestion mb-4">
-            <h3>AI-driven Suggestion Post</h3>
+            <h3>Suggestion Post</h3>
             <Carousel>
               <Carousel.Item>
                 <img
@@ -150,7 +164,7 @@ function App(email) {
                   alt="First slide"
                 />
                 <Carousel.Caption>
-                  <h5>First AI Suggested Post</h5>
+                  <h5>First Suggested Post</h5>
                   <p>Based on your skills and interests.</p>
                 </Carousel.Caption>
               </Carousel.Item>
@@ -161,7 +175,7 @@ function App(email) {
                   alt="Second slide"
                 />
                 <Carousel.Caption>
-                  <h5>Second AI Suggested Post</h5>
+                  <h5>Second Suggested Post</h5>
                   <p>Explore new opportunities.</p>
                 </Carousel.Caption>
               </Carousel.Item>
@@ -172,7 +186,7 @@ function App(email) {
                   alt="Third slide"
                 />
                 <Carousel.Caption>
-                  <h5>Third AI Suggested Post</h5>
+                  <h5>Third Suggested Post</h5>
                   <p>Enhance your skills with these resources.</p>
                 </Carousel.Caption>
               </Carousel.Item>
@@ -183,33 +197,20 @@ function App(email) {
           <section className="recent-posts">
             <h3>Recent and Trending Posts</h3>
             <div className="post-grid">
-              {/* Post 1 */}
-              <div className="post">
-                <img src="\uploads\1725597512774.jpeg" alt="Post 1" className="post-image" />
-                <div className="post-actions">
-                  <span>👍 20</span>
-                  <span>💬 2</span>
-                  <span><FiShare2 /> Share</span>
+              {recentPosts.map((post, index) => (
+                <div className="post" key={index}>
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="post-image"
+                  />
+                  <div className="post-actions">
+                    <span>👍 0</span>
+                    <span>💬 0</span>
+                    <span><FiShare2 /> Share</span>
+                  </div>
                 </div>
-              </div>
-              {/* Post 2 */}
-              <div className="post">
-                <img src="\uploads\1725586785827.jpg" alt="Post 2" className="post-image" />
-                <div className="post-actions">
-                  <span>👍 15</span>
-                  <span>💬 5</span>
-                  <span><FiShare2 /> Share</span>
-                </div>
-              </div>
-              {/* Post 3 */}
-              <div className="post">
-                <img src="\uploads\1725585309937.jpeg" alt="Post 3" className="post-image" />
-                <div className="post-actions">
-                  <span>👍 30</span>
-                  <span>💬 8</span>
-                  <span><FiShare2 /> Share</span>
-                </div>
-              </div>
+              ))}
             </div>
           </section>
         </main>

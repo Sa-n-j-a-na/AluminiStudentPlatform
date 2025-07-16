@@ -1,70 +1,90 @@
-# Getting Started with Create React App
+# 🎓 Alumni-Student Interaction Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack web application designed to enhance collaboration between alumni and students by enabling resource sharing, internships, and interactive community features.
 
-## Available Scripts
+## 🎥 Demo Video
+https://drive.google.com/file/d/1-FcEr05pcgxXe97yNTAIZ9rVzBmyhNrM/view?usp=drivesdk
 
-In the project directory, you can run:
+## 🔐 Authentication & Roles
 
-### `npm start`
+- **Two types of users:**  
+  - 👨‍🎓 **Student**  
+  - 👩‍💼 **Alumni**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Login credentials are manually created** in the database with:
+  - `email`
+  - `name`
+  - `role`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Users log in with their credentials and are redirected to their respective dashboards.
 
-### `npm test`
+## 👨‍🎓 Student Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- ✅ **View & Edit Profile**  
+  Fill or edit details like:
+  - Name
+  - Description
+  - Currently Pursuing
+  - Interested Company
+  - Skills
+  - Event Participations
 
-### `npm run build`
+- 📚 **Tech Library Access**  
+  Download shared files uploaded by alumni such as:
+  - Projects
+  - Research papers
+  - Technical resources
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- 🧑‍💻 **Interns Group (Internship Feed)**  
+  - See all posts containing internships.
+  - Easily discover opportunities via a separate filtered view.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+-  **Sharing their achievements**  
+  - can post certifications and awards they got.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- 🧭 **Alumni Directory**  
+  Search alumni by:
+  - Name
+  - Current working company
 
-### `npm run eject`
+## 👨‍💼 Alumni Features
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- ✅ **View & Edit Profile**  
+  Fill or update:
+  - Name
+  - Description
+  - Current Working Place
+  - Passed Out Year
+  - Skills
+  - Past Working Experiences
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- 📝 **Post Internship Opportunities**  
+  Create posts about internships (automatically picked up by Interns Group feed) or general.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- 📁 **Upload Resources to Tech Library**  
+  Share:
+  - Project files
+  - Paper publications
+  - Learning resources
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- 📰 **Interns Group & General Posts**  
+  - Share regular or internship posts.
+  - Both show up on home feeds (internships are auto-filtered).
 
-## Learn More
+- 📚 **View Student Directory**  
+  Discover students and their profiles.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🧠 Smart Profile Handling
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- ✨ If user logs in for the first time → redirected to **Edit Profile**  
+- 📝 Already edited profile? → shown in **View Mode** with option to edit again anytime  
+- Profiles stored in:
+  - `studentProfile` collection (for students)
+  - `alumniProfile` collection (for alumni)
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 💾 Tech Stack
+- Frontend: React.js
+- Backend: Node.js, Express.js
+- Database: MongoDB

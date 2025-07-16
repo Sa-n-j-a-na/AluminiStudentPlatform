@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom"; // Import Link
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Carousel } from 'react-bootstrap';
@@ -12,6 +12,7 @@ function StudentHome({ email }) { // Destructure email from props
   const [postTitle, setPostTitle] = useState('');
   const [postDescription, setPostDescription] = useState('');
   const [postImage, setPostImage] = useState(null);
+  const [recentPosts, setRecentPosts] = useState([]);
 
   console.log(email); // This should now correctly show the email
 
@@ -70,6 +71,19 @@ function StudentHome({ email }) { // Destructure email from props
       alert('Error creating post.');
     }
   };
+  useEffect(() => {
+  const fetchRecentPosts = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/recent-posts');
+      const data = await response.json();
+      setRecentPosts(data);
+    } catch (error) {
+      console.error('Error fetching recent posts:', error);
+    }
+  };
+
+  fetchRecentPosts();
+}, []);
 
   return (
     <div className="container-fluid">
@@ -133,7 +147,7 @@ function StudentHome({ email }) { // Destructure email from props
 
         <main className={`content ${sidebarExpanded ? 'sidebar-expanded' : ''}`}>
           <section className="ai-suggestion mb-4">
-            <h3>AI-driven Suggestion Post</h3>
+            <h3>Suggestion Post</h3>
             <Carousel>
               <Carousel.Item>
                 <img
@@ -174,30 +188,20 @@ function StudentHome({ email }) { // Destructure email from props
           <section className="recent-posts">
             <h3>Recent and Trending Posts</h3>
             <div className="post-grid">
-              <div className="post">
-                <img src="\uploads\1725585309937.jpeg" alt="Post 1" className="post-image" />
-                <div className="post-actions">
-                  <span>👍 20</span>
-                  <span>💬 2</span>
-                  <span><FiShare2 /> Share</span>
+              {recentPosts.map((post, index) => (
+                <div className="post" key={index}>
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="post-image"
+                  />
+                  <div className="post-actions">
+                    <span>👍 0</span>
+                    <span>💬 0</span>
+                    <span><FiShare2 /> Share</span>
+                  </div>
                 </div>
-              </div>
-              <div className="post">
-                <img src="\uploads\1725586785827.jpg" alt="Post 2" className="post-image" />
-                <div className="post-actions">
-                  <span>👍 15</span>
-                  <span>💬 5</span>
-                  <span><FiShare2 /> Share</span>
-                </div>
-              </div>
-              <div className="post">
-                <img src="\uploads\1725597512774.jpeg" alt="Post 3" className="post-image" />
-                <div className="post-actions">
-                  <span>👍 30</span>
-                  <span>💬 8</span>
-                  <span><FiShare2 /> Share</span>
-                </div>
-              </div>
+              ))}
             </div>
           </section>
         </main>

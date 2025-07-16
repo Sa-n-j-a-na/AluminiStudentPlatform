@@ -8,11 +8,30 @@ const Login = ({ onLogin }) => {
   const [role, setRole] = useState('student');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    onLogin(email, password, role);
-    navigate('/');
-  };
+  const handleLogin = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch(`http://localhost:5000/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, role }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      onLogin(email, password, role);  // still passes info to parent
+      navigate('/');                   // now safe to navigate
+    } else {
+      alert(data.message || 'Login failed');
+    }
+  } catch (err) {
+    console.error('Login error:', err);
+    alert('Server error');
+  }
+};
+
 
   return (
     <div className="login-background">

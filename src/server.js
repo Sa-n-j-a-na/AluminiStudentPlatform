@@ -1,17 +1,18 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const { MongoClient } = require('mongodb');
-const cors = require('cors');
-const multer = require('multer');
-const path = require('path');
-const mongoose = require('mongoose');
-const fs = require('fs');
-
-
+import express from 'express';
+import bodyParser from 'body-parser';
+import { MongoClient } from 'mongodb';
+import cors from 'cors';
+import multer from 'multer';
+import path from 'path';
+import mongoose from 'mongoose';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 const app = express();
 const port = 5000;
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 // MongoDB connection URI
 const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri);
@@ -74,9 +75,30 @@ const storageUp = multer.diskStorage({
 });
 const uploadUp = multer({ storage: storageUp });
 
+app.post('/auth/login', async (req, res) => {
+  const { email, password, role } = req.body;
+  console.log(req.body);
+  try {
+    const client = await connectToDatabase();
+    const database = client.db('studentApp');
 
-// Route for alumni to upload a file
-// Route for alumni to upload a file
+    const collection = role === 'student' ? 'studentProfile' : 'alumniProfile';
+    const user = await database.collection(collection).findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    if (user.name !== password) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    res.status(200).json({ message: 'Login successful', user: { email, name: user.name } });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 app.post('/techLibrary/upload', uploadUp.single('file'), async (req, res) => {
   const { folder, email } = req.body;
 
@@ -115,7 +137,9 @@ app.get('/techLibrary/files/:folder', async (req, res) => {
 
 // Endpoint to fetch alumni profiles by email
 app.get('/alumni', async (req, res) => {
-  const { email } = req.query;
+  const email = typeof req.body.email === 'string' ? req.body.email
+            : typeof req.body.email === 'object' ? req.body.email.email
+            : null;
 
   try {
     const client = await connectToDatabase();
@@ -308,6 +332,27 @@ app.get('/student', async (req, res) => {
       res.status(500).json({ message: 'Server error', error });
     }
   });
+
+  // ✅ Endpoint to get the latest 3 posts
+app.get('/recent-posts', async (req, res) => {
+  try {
+    const client = await connectToDatabase();
+    const database = client.db('studentApp');
+
+    const posts = await database
+      .collection('posts')
+      .find()
+      .sort({ date: -1 }) // Newest first
+      .limit(3)
+      .toArray();
+
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error('Error fetching recent posts:', error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
+
 
 // Add this endpoint to your existing server.js
 app.get('/getname/:email', async (req, res) => {
